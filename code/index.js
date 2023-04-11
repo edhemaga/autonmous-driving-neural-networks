@@ -14,6 +14,7 @@ car.draw(ctx);
 //Animate car moving, update agent position and draw the changes 
 const animate = () => {
     car.updatePosition();
+    canvas.height = window.innerHeight;
     car.draw(ctx);
     requestAnimationFrame(animate);
 }

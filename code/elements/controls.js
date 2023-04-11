@@ -13,7 +13,7 @@ class Controls {
     //If matching key is released, stop the direction of moving
     keyboardListeners = () => {
         document.onkeydown = (event) => {
-            switch (event.key) {
+            switch (event.code) {
                 case 'ArrowLeft':
                     this.left = true;
                     break;
@@ -25,6 +25,12 @@ class Controls {
                     break;
                 case 'ArrowDown':
                     this.backwards = true;
+                    break;
+                case 'Space':
+                    this.forwards = false;
+                    this.backwards = false;
+                    this.left = false;
+                    this.right = false;
                     break;
             }
         }
