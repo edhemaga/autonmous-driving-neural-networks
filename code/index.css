@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+    background-color: rgb(222, 222, 222);
+    overflow: hidden;
+    align-items: center;
+    text-align: center;
+}
+
+#driving-canvas {
+    background-color: white;
+}
