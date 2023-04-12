@@ -1,7 +1,8 @@
 class Car {
-    //Initialize variable
+    //Initialize variables
     // x and y are coordinates for starting positions of the car
     // width and height for the dimensions of the car
+    //other variables are used for motion of the car itself; simulating physics
     constructor(x, y, width, height) {
         this.x = x;
         this.y = y;

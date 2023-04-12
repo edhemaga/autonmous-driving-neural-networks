@@ -6,15 +6,16 @@ canvas.height = window.innerHeight;
 canvas.width = window.innerWidth / 2;
 
 const ctx = canvas.getContext("2d");
-
+//Initialize track object with the set dimensions
+const track = new Track(canvas.width / 2, canvas.width * 0.8);
 //Initialize car object with dimensions
 const car = new Car(100, 100, 30, 50);
-car.draw(ctx);
 
 //Animate car moving, update agent position and draw the changes 
 const animate = () => {
     car.updatePosition();
     canvas.height = window.innerHeight;
+    track.draw(ctx);
     car.draw(ctx);
     requestAnimationFrame(animate);
 }
