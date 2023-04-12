@@ -14,6 +14,8 @@ class Car {
         this.maxSpeed = 5;
         this.friction = 0.1;
 
+        this.angle = 0;
+
         this.controls = new Controls();
     }
     //Update position of the agent depending on the which control direction is set as truthy
@@ -28,22 +30,33 @@ class Car {
         if (this.controls.backwards && this.y <= window.innerHeight) {
             this.velocity += this.acceleration;
         }
-        this.y += this.velocity;
 
-        if (this.controls.right && this.x <= window.innerWidth / 2) {
-            this.x += 5;
+        //Horizontal life-like movement; not necessary just rather simple improvement
+        if (this.velocity != 0) {
+            const correction = this.velocity > 0 ? -1 : 1;
+            if (this.controls.right && this.x <= window.innerWidth / 2) {
+                this.angle -= 0.05 * correction;
+            }
+            if (this.controls.left && this.x >= 0) {
+                this.angle += 0.05 * correction;
+            }
         }
-        if (this.controls.left && this.x >= 0) {
-            this.x -= 5;
-        }
+
+        //Based of unit circle
+        this.x += Math.sin(this.angle) * this.velocity;
+        this.y += Math.cos(this.angle) * this.velocity;
+
     }
 
     //Draw car using preset dimensions and setting a center of the car
     draw = (ctx) => {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(-this.angle);
         ctx.beginPath(ctx);
         ctx.rect(
-            this.x - this.width / 2,
-            this.y - this.height / 2,
+            this.width / 2,
+            this.height / 2,
             this.width,
             this.height
         );
