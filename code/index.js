@@ -20,4 +20,3 @@ const animate = () => {
 }
 
 animate();
-
