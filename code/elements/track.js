@@ -50,7 +50,8 @@ class Track {
 
     getLaneCenter = (laneIndex) => {
         const laneWidth = this.width / this.lanes;
-        return this.left + Math.min(laneIndex, this.lanes - 1) * laneWidth;
+        return this.left +
+            Math.min(laneIndex, this.lanes - 1) * laneWidth;
     }
 }
 

@@ -17,28 +17,31 @@ class Car {
 
         this.angle = 0;
 
+        this.sensor = new Sensor(this);
         this.controls = new Controls();
+
     }
     //Update position of the agent depending on the which control direction is set as truthy
-    //Add border constrains while moving
     updatePosition = () => {
         this.velocity = checkSpeedLimit(this.maxSpeed, this.velocity);
-        this.velocity = frictionControl(this.friction, this.velocity)
 
-        if (this.controls.forwards && this.y >= 0) {
+        //Do not apply friction if car forwards or backwards moving commands are held
+        if (!this.controls.forwards && !this.controls.backwards)
+            this.velocity = frictionControl(this.friction, this.velocity)
+
+        if (this.controls.forwards)
             this.velocity -= this.acceleration;
-        }
-        if (this.controls.backwards && this.y <= window.innerHeight) {
+
+        if (this.controls.backwards)
             this.velocity += this.acceleration;
-        }
 
         //Horizontal life-like movement; not necessary just rather simple improvement
         if (this.velocity != 0) {
             const correction = this.velocity > 0 ? -1 : 1;
-            if (this.controls.right && this.x <= window.innerWidth / 2) {
+            if (this.controls.right) {
                 this.angle -= 0.05 * correction;
             }
-            if (this.controls.left && this.x >= 0) {
+            if (this.controls.left) {
                 this.angle += 0.05 * correction;
             }
         }
@@ -46,7 +49,9 @@ class Car {
         //Based of unit circle
         this.x += Math.sin(this.angle) * this.velocity;
         this.y += Math.cos(this.angle) * this.velocity;
-
+        //Update collision detection rays according to the position if car is moving
+        if (this.x && this.y)
+            this.sensor.update();
     }
 
     //Draw car using preset dimensions and setting a center of the car
@@ -56,12 +61,15 @@ class Car {
         ctx.rotate(-this.angle);
         ctx.beginPath(ctx);
         ctx.rect(
-            this.width / 2,
-            this.height / 2,
+            -this.width / 2,
+            -this.height / 2,
             this.width,
             this.height
         );
         ctx.fill();
+
+        ctx.restore();
+        this.sensor.draw(ctx);
     }
 }
 
