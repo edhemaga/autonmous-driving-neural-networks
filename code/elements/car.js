@@ -22,7 +22,7 @@ class Car {
 
     }
     //Update position of the agent depending on the which control direction is set as truthy
-    updatePosition = () => {
+    updatePosition = (borders) => {
         this.velocity = checkSpeedLimit(this.maxSpeed, this.velocity);
 
         //Do not apply friction if car forwards or backwards moving commands are held
@@ -51,7 +51,7 @@ class Car {
         this.y += Math.cos(this.angle) * this.velocity;
         //Update collision detection rays according to the position if car is moving
         if (this.x && this.y)
-            this.sensor.update();
+            this.sensor.update(borders);
     }
 
     //Draw car using preset dimensions and setting a center of the car
@@ -87,6 +87,7 @@ const checkSpeedLimit = (maxSpeed, velocity) => {
 }
 
 //Add friction to the movement for more realistic controls; if speed is less than friction stop the motion
+//TODO put to some common util file; tbd
 const frictionControl = (friction, velocity) => {
     let finalVelocity = velocity;
     if (velocity < 0) {
