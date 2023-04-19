@@ -50,17 +50,20 @@ class Track {
 
     getLaneCenter = (laneIndex) => {
         const laneWidth = this.width / this.lanes;
-        return this.left + Math.min(laneIndex, this.lanes - 1) * laneWidth;
+        return this.left +
+            Math.min(laneIndex, this.lanes - 1) * laneWidth;
     }
 }
 
 //Utility function used to return where a line should be drawn based on the relative position
 //relative position is calculated based on the number of iterations and total available lanes expressed as a percentage  
+//TODO put to some common util file; tbd
 lerp = (x1, x2, relativePosition) => {
     return x1 + (x2 - x1) * relativePosition;
 }
 
 //Utility function that checks whether white lines are the border lines
+//TODO put to some common util file; tbd
 createDashedLines = (iterator, laneCount, ctx) => {
     if (iterator > 0 && iterator < laneCount) {
         ctx.setLineDash([30, 30]);
